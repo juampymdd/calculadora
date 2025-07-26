@@ -1,29 +1,29 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { View } from "react-native";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useFonts } from "expo-font";
+import { Slot } from "expo-router";
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+import { globalStyles } from "@/styles/global-styles";
+
+// const isAndroid = Platform.OS === "android";
+// if (isAndroid) {
+//   NavigationBar.setBackgroundColorAsync("black");
+// }
+
+const RootLayout = () => {
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+    return null; // or a loading indicator
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={globalStyles.background}>
+      <Slot />
+    </View>
   );
-}
+};
+
+export default RootLayout;
